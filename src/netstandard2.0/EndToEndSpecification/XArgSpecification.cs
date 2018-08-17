@@ -115,7 +115,7 @@
       //THEN
       var exception = Assert.Throws<ReceivedCallsException>(() =>
       {
-        xyz.Received(1).Do(XArg.Where<List<int>>(
+        xyz.Received(1).Do(Arg<List<int>>.That(
           l => l.Should().BeInDescendingOrder(),
           l => l.Should().Contain(4),
           l => l.Should().Contain(5),
