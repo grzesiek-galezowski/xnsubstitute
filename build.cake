@@ -74,7 +74,7 @@ Task("Build")
      {
          Configuration = configuration,
          OutputDirectory = buildNetStandardDir,
-         ArgumentCustomization = args=>args.Append("/property:Version=" + nugetVersion.NuGetVersionV2)
+         ArgumentCustomization = args => args.Append("/property:Version=" + nugetVersion.NuGetVersionV2)
      });
 });
 
