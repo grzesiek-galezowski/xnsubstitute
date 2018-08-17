@@ -110,7 +110,7 @@
       var xyz = Substitute.For<IXyz>();
 
       //WHEN
-      xyz.Do(new List<int>() { 1,2,3 });
+      xyz.Do(new List<int>() { 1, 2, 3 });
 
       //THEN
       var exception = Assert.Throws<ReceivedCallsException>(() =>
