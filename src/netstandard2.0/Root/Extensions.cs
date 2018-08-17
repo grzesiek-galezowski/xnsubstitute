@@ -1,11 +1,11 @@
-﻿namespace TddXt.XFluentAssert.NSubstituteExtensions
+﻿namespace TddXt.XNSubstitute.Root
 {
   using System.Linq;
 
   using NSubstitute;
   using NSubstitute.Exceptions;
 
-  using TddXt.XFluentAssert.NSubstituteExtensions.ImplementationDetails;
+  using TddXt.XNSubstitute.Root.ImplementationDetails;
 
   public static class Extensions
   {

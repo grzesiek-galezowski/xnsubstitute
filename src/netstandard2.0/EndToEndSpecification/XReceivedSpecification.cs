@@ -1,11 +1,11 @@
-﻿namespace TddXt.XFluentAssert.EndToEndSpecification.NSubstituteSpecifications
+﻿namespace TddXt.XFluentAssert.EndToEndSpecification
 {
   using System;
 
   using NSubstitute;
   using NSubstitute.Exceptions;
 
-  using TddXt.XFluentAssert.NSubstituteExtensions;
+  using TddXt.XNSubstitute.Root;
 
   using Xunit;
 

@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>TddXt.XFluentAssert.NSubstituteExtensions</AssemblyName>
-    <RootNamespace>TddXt.XFluentAssert.NSubstituteExtensions</RootNamespace>
+    <RootNamespace>TddXt.XNSubstitute.Root</RootNamespace>
+    <AssemblyName>TddXt.XNSubstitute.Root</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

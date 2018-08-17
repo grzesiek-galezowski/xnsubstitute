@@ -8,7 +8,7 @@
   using NSubstitute;
   using NSubstitute.Exceptions;
 
-  using TddXt.XFluentAssert.NSubstituteExtensions;
+  using TddXt.XNSubstitute.Root;
 
   using Xunit;
 

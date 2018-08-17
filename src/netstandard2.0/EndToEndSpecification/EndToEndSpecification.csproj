@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NSubstituteExtensions\NSubstituteExtensions.csproj" />
+    <ProjectReference Include="..\Root\Root.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace TddXt.XFluentAssert.EndToEndSpecification.NSubstituteSpecifications
+﻿namespace TddXt.XFluentAssert.EndToEndSpecification
 {
   using System.Collections.Generic;
 
@@ -7,7 +7,7 @@
   using NSubstitute;
   using NSubstitute.Exceptions;
 
-  using TddXt.XFluentAssert.NSubstituteExtensions;
+  using TddXt.XNSubstitute.Root;
 
   using Xunit;
 
@@ -54,19 +54,19 @@
       var s = Substitute.For<IXyz>();
       s.Do(new List<int>());
       Assert.Throws<ReceivedCallsException>(() =>
-      {
-        s.Received(1).Do(XArg.EquivalentTo(new List<int>() {1, 2, 3}));
-      });
+          {
+            s.Received(1).Do(XArg.EquivalentTo(new List<int>() { 1, 2, 3 }));
+          });
     }
 
     [Fact]
     public void ShouldCorrectlyReportCollectionSequenceEquality()
     {
       var s = Substitute.For<IXyz>();
-      s.Do(new List<int>() {1,2,3});
-      s.Do(new List<string>() {"a", "b", "c"});
-      s.Received(1).Do(XArg.SequenceEqualTo(new List<int>() {1,2,3}));
-      s.Received(1).Do(XArg.SequenceEqualTo(new List<string>() {"a", "b", "c"}));
+      s.Do(new List<int>() { 1, 2, 3 });
+      s.Do(new List<string>() { "a", "b", "c" });
+      s.Received(1).Do(XArg.SequenceEqualTo(new List<int>() { 1, 2, 3 }));
+      s.Received(1).Do(XArg.SequenceEqualTo(new List<string>() { "a", "b", "c" }));
     }
 
     [Fact]
@@ -75,8 +75,8 @@
       var s = Substitute.For<IXyz>();
       s.Do(new List<int>() {1,2,3});
       s.Do(new List<string>() {"a", "b", "c"});
-      s.Received(1).Do(XArg.NotSequenceEqualTo(new List<int>() {1,2,3,4}));
-      s.Received(1).Do(XArg.NotSequenceEqualTo(new List<string>() {"a", "b", "c", "d"}));
+      s.Received(1).Do(XArg.NotSequenceEqualTo(new List<int>() { 1, 2, 3, 4 }));
+      s.Received(1).Do(XArg.NotSequenceEqualTo(new List<string>() { "a", "b", "c", "d" }));
     }
 
     [Fact]
@@ -90,13 +90,13 @@
       xyz.Do(new List<int>() { 6,5,4 });
 
       //THEN
-      xyz.Received(1).Do(XArg.Passing<List<int>>(
+      xyz.Received(1).Do(XArg.Where<List<int>>(
         l => l.Should().BeInAscendingOrder(),
         l => l.Should().Contain(1),
         l => l.Should().Contain(2),
         l => l.Should().Contain(3)));
 
-      xyz.Received(1).Do(XArg.Passing<List<int>>(
+      xyz.Received(1).Do(XArg.Where<List<int>>(
         l => l.Should().BeInDescendingOrder(),
         l => l.Should().Contain(6),
         l => l.Should().Contain(5),
@@ -115,7 +115,7 @@
       //THEN
       var exception = Assert.Throws<ReceivedCallsException>(() =>
       {
-        xyz.Received(1).Do(XArg.Passing<List<int>>(
+        xyz.Received(1).Do(XArg.Where<List<int>>(
           l => l.Should().BeInDescendingOrder(),
           l => l.Should().Contain(4),
           l => l.Should().Contain(5),
