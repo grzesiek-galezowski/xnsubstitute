@@ -90,13 +90,13 @@
       xyz.Do(new List<int>() { 6,5,4 });
 
       //THEN
-      xyz.Received(1).Do(XArg.Where<List<int>>(
+      xyz.Received(1).Do(Arg<List<int>>.That(
         l => l.Should().BeInAscendingOrder(),
         l => l.Should().Contain(1),
         l => l.Should().Contain(2),
         l => l.Should().Contain(3)));
 
-      xyz.Received(1).Do(XArg.Where<List<int>>(
+      xyz.Received(1).Do(Arg<List<int>>.That(
         l => l.Should().BeInDescendingOrder(),
         l => l.Should().Contain(6),
         l => l.Should().Contain(5),

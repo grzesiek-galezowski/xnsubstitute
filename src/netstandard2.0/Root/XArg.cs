@@ -23,16 +23,6 @@
       return Where<T>(actual => actual.Should().NotBeLike(expected));
     }
 
-    public static T Where<T>(params Action<T>[] assertions)
-    {
-      assertions
-        .Should().NotBeEmpty("at least one condition should be specified");
-
-      var lambdaMatcher = new LambdaArgumentMatcher<T>(assertions);
-      EnqueueMatcher<T>(lambdaMatcher);
-      return default(T);
-    }
-
     public static T EquivalentTo<T>(T expected)
     {
       return Where<T>(actual => actual.Should().BeEquivalentTo(expected));
@@ -53,6 +43,16 @@
     public static T NotSequenceEqualTo<T>(T expected) where T : IEnumerable
     {
       return Where<T>(actual => actual.Should().NotEqual(expected));
+    }
+
+    internal static T Where<T>(params Action<T>[] assertions)
+    {
+      assertions
+        .Should().NotBeEmpty("at least one condition should be specified");
+
+      var lambdaMatcher = new LambdaArgumentMatcher<T>(assertions);
+      EnqueueMatcher<T>(lambdaMatcher);
+      return default(T);
     }
 
   }
