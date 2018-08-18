@@ -30,7 +30,7 @@ var mainDll = "TddXt.XNSubstitute.Root.dll";
 
 var fluentAssertions = new[] {"FluentAssertions", "5.4.1"};
 var nSubstitute      = new[] {"NSubstitute"     , "3.1.0"};
-var xFluentAssert    = new[] {"XFluentAssert"   , "0.1.3"};
+var xFluentAssert    = new[] {"XFluentAssert"   , "0.1.4"};
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -67,7 +67,7 @@ Task("Clean")
 });
 
 Task("Build")
-	.IsDependentOn("GitVersion")
+    .IsDependentOn("GitVersion")
     .Does(() =>
 {
     DotNetCoreBuild("./src/netstandard2.0/Root", new DotNetCoreBuildSettings
@@ -111,7 +111,7 @@ Task("GitVersion")
 {
     nugetVersion = GitVersion(new GitVersionSettings {
         UpdateAssemblyInfo = true,
-	});
+    });
 });
 
 
@@ -131,7 +131,7 @@ Task("Pack")
             Summary = "A set of NSubstitute extensions.",
             Description = "A set of NSubstitute extensions.",
             Language = "en-US",
-            ReleaseNotes = new[] {"Initial release"},
+            ReleaseNotes = new[] {"Fixed missing dependency"},
             ProjectUrl = new Uri("https://github.com/grzesiek-galezowski/xnsubstitute"),
             OutputDirectory = "./nuget",
             Version = nugetVersion.NuGetVersionV2,
@@ -172,7 +172,7 @@ Task("Pack")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-	.IsDependentOn("GitVersion")
+    .IsDependentOn("GitVersion")
     .IsDependentOn("Build")
     .IsDependentOn("Run-Unit-Tests")
     .IsDependentOn("Pack");
