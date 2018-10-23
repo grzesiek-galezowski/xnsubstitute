@@ -20,9 +20,10 @@
       var enumerable = Substitute.For<ICollection<int>>();
       enumerable.ReceivedNothing();
       enumerable.Add(123);
-      enumerable.Received().Add(XArg.Where<int>(
+      enumerable.Received().Add(Arg<int>.That(
         n => n.Should().Be(333),
-        n => n.Should().Be(3453)));
+        n => n.Should().Be(3453),
+        n => new List<int> { n }.Should().BeLike(new List<int>() { 3453 })));
 
       /*new object().Should().BeLike()
       new List<int> { 1, 2, 3 }.Should().BeLike(new List<int> { 1, 2, 3 });*/
