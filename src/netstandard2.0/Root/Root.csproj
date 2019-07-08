@@ -4,12 +4,28 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>TddXt.XNSubstitute.Root</RootNamespace>
     <AssemblyName>TddXt.XNSubstitute.Root</AssemblyName>
+    <PackageId>XNSubstitute</PackageId>
+    <Version>0.1.3</Version>
+    <Authors>Grzegorz Gałęzowski</Authors>
+    <Company />
+    <Product>XNSubstitute</Product>
+    <Copyright>Grzegorz Gałęzowski</Copyright>
+    <PackageProjectUrl>https://github.com/grzesiek-galezowski/xnsubstitute/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/grzesiek-galezowski/xnsubstitute/</RepositoryUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.4.1" />
     <PackageReference Include="NSubstitute" Version="3.1.0" />
     <PackageReference Include="XFluentAssert" Version="0.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

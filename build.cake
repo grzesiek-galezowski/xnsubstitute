@@ -133,6 +133,7 @@ Task("Pack")
             Language = "en-US",
             ReleaseNotes = new[] {"Fixed missing dependency"},
             ProjectUrl = new Uri("https://github.com/grzesiek-galezowski/xnsubstitute"),
+            LicenseUrl = new Uri("https://github.com/grzesiek-galezowski/xnsubstitute/blob/master/LICENSE"),
             OutputDirectory = "./nuget",
             Version = nugetVersion.NuGetVersionV2,
             Files = new [] 
