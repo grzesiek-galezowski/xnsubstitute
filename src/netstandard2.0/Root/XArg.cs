@@ -30,7 +30,7 @@
 
     private static void EnqueueMatcher<T>(IArgumentMatcher lambdaMatcher)
     {
-      SubstitutionContext.Current.EnqueueArgumentSpecification(
+      SubstitutionContext.Current.ThreadContext.EnqueueArgumentSpecification(
         new ArgumentSpecification(typeof(T), 
           lambdaMatcher));
     }
