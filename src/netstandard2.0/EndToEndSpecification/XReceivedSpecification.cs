@@ -1,4 +1,6 @@
-﻿namespace TddXt.XFluentAssert.EndToEndSpecification
+﻿using System.Threading.Tasks;
+
+namespace TddXt.XFluentAssert.EndToEndSpecification
 {
   using System;
 
@@ -13,8 +15,8 @@
   {
     public class OnlySpecification
     {
-      private IFoo _foo;
-      private IBar _bar;
+      private readonly IFoo _foo;
+      private readonly IBar _bar;
 
       public OnlySpecification()
       {
@@ -256,6 +258,23 @@
         });
       }
 
+      [Fact]
+      public async Task ShouldNotCheckQueriesWhenTheyAreAllowed()
+      {
+        var substitute = Substitute.For<IHaveCommandAndQueryAndTasks>();
+
+        substitute.DoSomething();
+        await substitute.DoSomethingAsync();
+        var result1 = substitute.QuerySomething();
+        var result2 = await substitute.QuerySomethingAsync();
+
+        XReceived.Only(async () =>
+        {
+          substitute.DoSomething();
+          await substitute.DoSomethingAsync();
+        }, Allow.Queries());
+      }
+
 
       public interface IFoo
       {
@@ -278,6 +297,14 @@
         string Flurgle { get; set; }
         void Wurgle();
         void Slurgle();
+      }
+
+      public interface IHaveCommandAndQueryAndTasks
+      {
+        void DoSomething();
+        Task DoSomethingAsync();
+        string QuerySomething();
+        Task<string> QuerySomethingAsync();
       }
     }
   }

@@ -332,3 +332,4 @@ tools/*
 nuget/*
 build/*
 specification/*
+src/netstandard2.0/XNSubstitute.v3.ncrunchsolution
