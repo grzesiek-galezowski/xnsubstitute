@@ -18,7 +18,7 @@
     public void ShouldPassWhenNoCallsWereMade()
     {
       var sub = Substitute.For<IEnumerable>();
-      new Action(() => sub.ReceivedNothing()).Should().NotThrow();
+      sub.Invoking(s => s.ReceivedNothing()).Should().NotThrow();
     }
 
     [Fact]
@@ -28,6 +28,24 @@
       sub.GetEnumerator();
 
       Assert.Throws<CallSequenceNotFoundException>(() => sub.ReceivedNothing());
+    }
+
+    [Fact]
+    public void ShouldNotThrowWhenReceivedOnlyQueries()
+    {
+      var sub = Substitute.For<IList>();
+      sub.GetEnumerator();
+
+      sub.Invoking(s => s.ReceivedNoCommands()).Should().NotThrow();
+    }
+
+    [Fact]
+    public void ShouldThrowWhenReceivedCommand()
+    {
+      var sub = Substitute.For<IList>();
+      sub.Clear();
+
+      sub.Invoking(s => s.ReceivedNoCommands()).Should().ThrowExactly<CallSequenceNotFoundException>();
     }
   }
 }
