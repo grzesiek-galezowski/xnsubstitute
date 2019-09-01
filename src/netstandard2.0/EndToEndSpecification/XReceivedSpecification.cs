@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using FluentAssertions;
 
 namespace TddXt.XFluentAssert.EndToEndSpecification
 {
@@ -259,22 +260,55 @@ namespace TddXt.XFluentAssert.EndToEndSpecification
       }
 
       [Fact]
-      public async Task ShouldNotCheckQueriesWhenTheyAreAllowed()
+      public async Task ShouldNotCheckQueriesWhenTheyAreAllowed() //bug this should not pass!!!
       {
-        var substitute = Substitute.For<IHaveCommandAndQueryAndTasks>();
+        var substitute1 = Substitute.For<IHaveCommandAndQueryAndTasks>();
+        var substitute2 = Substitute.For<IHaveCommandAndQueryAndTasks>();
 
-        substitute.DoSomething();
-        await substitute.DoSomethingAsync();
-        var result1 = substitute.QuerySomething();
-        var result2 = await substitute.QuerySomethingAsync();
+        substitute1.DoSomething();
+        await substitute1.DoSomethingAsyncWithoutResult();
+        var result1 = substitute1.QuerySomething();
+        var result2 = await substitute1.QuerySomethingAsync();
+        substitute2.DoSomething();
+        await substitute2.DoSomethingAsyncWithoutResult();
+        await substitute2.DoSomethingAsyncWithResult();
+        var result3 = substitute2.QuerySomething();
+        var result4 = await substitute2.QuerySomethingAsync();
 
-        XReceived.Only(async () =>
+        new Action(() =>
         {
-          substitute.DoSomething();
-          await substitute.DoSomethingAsync();
-        }, Allow.Queries());
+          XReceived.Only(async () =>
+          {
+            substitute1.DoSomething();
+            substitute2.DoSomething();
+            await substitute1.DoSomethingAsyncWithoutResult();
+            await substitute2.DoSomethingAsyncWithoutResult();
+          }, Allow.Queries());
+        }).Should().NotThrow();
       }
+      
+      [Fact]
+      public async Task ShouldNotCheckQueriesWhenTheyAreAllowed2() //bug this should not pass!!!
+      {
+        var substitute1 = Substitute.For<IHaveCommandAndQueryAndTasks>();
+        var substitute2 = Substitute.For<IHaveCommandAndQueryAndTasks>();
 
+        await substitute1.DoSomethingAsyncWithoutResult();
+        await substitute1.DoSomethingAsyncWithResult();
+        substitute1.DoSomething();
+        await substitute2.DoSomethingAsyncWithoutResult();
+        substitute2.DoSomething();
+
+        new Action(() =>
+        {
+          XReceived.Only(async () =>
+          {
+            substitute1.DoSomething();
+            substitute2.DoSomething();
+            await substitute1.DoSomethingAsyncWithoutResult();
+          }, Allow.Queries());
+        }).Should().Throw<Exception>(because: "verification of substitute2.DoSomethingAsyncWithoutResult() is missing");
+      }
 
       public interface IFoo
       {
@@ -302,7 +336,8 @@ namespace TddXt.XFluentAssert.EndToEndSpecification
       public interface IHaveCommandAndQueryAndTasks
       {
         void DoSomething();
-        Task DoSomethingAsync();
+        Task DoSomethingAsyncWithoutResult();
+        Task<int> DoSomethingAsyncWithResult();
         string QuerySomething();
         Task<string> QuerySomethingAsync();
       }

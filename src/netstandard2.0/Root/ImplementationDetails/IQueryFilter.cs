@@ -4,6 +4,6 @@ namespace TddXt.XNSubstitute.Root.ImplementationDetails
 {
   public interface IQueryFilter
   {
-    bool Allows(MethodInfo methodInfo);
+    bool ShouldVerify(MethodInfo methodInfo);
   }
 }

@@ -5,7 +5,7 @@ namespace TddXt.XNSubstitute.Root.ImplementationDetails
 {
   public class FilterAllowingPropertyGetters : IQueryFilter
   {
-    public bool Allows(MethodInfo methodInfo)
+    public bool ShouldVerify(MethodInfo methodInfo)
     {
       return methodInfo.GetPropertyFromGetterCallOrNull() == null;
     }

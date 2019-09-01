@@ -13,9 +13,9 @@ namespace TddXt.XNSubstitute.Root
       _queryFilters = queryFilters;
     }
 
-    public bool Allows(MethodInfo methodInfo)
+    public bool ShouldVerify(MethodInfo methodInfo)
     {
-      return _queryFilters.All(f => f.Allows(methodInfo));
+      return _queryFilters.All(f => f.ShouldVerify(methodInfo));
     }
   }
 }

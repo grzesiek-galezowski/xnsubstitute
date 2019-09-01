@@ -34,14 +34,14 @@ namespace TddXt.XNSubstitute.Root.ImplementationDetails
     {
       var allUniqueTargets = querySpec.Select(s => s.Target).Distinct();
       var allReceivedCalls = allUniqueTargets.SelectMany(target => target.ReceivedCalls());
-      return allReceivedCalls.Where(x => _queryFilter.Allows(x.GetMethodInfo())).ToArray();
+      return allReceivedCalls.Where(x => _queryFilter.ShouldVerify(x.GetMethodInfo())).ToArray();
     }
 
     private CallSpecAndTarget[] QuerySpecificationFrom(IQueryResults queryResult)
     {
       return
         queryResult.QuerySpecification()
-          .Where(x => _queryFilter.Allows(x.CallSpecification.GetMethodInfo()))
+          .Where(x => _queryFilter.ShouldVerify(x.CallSpecification.GetMethodInfo()))
           .ToArray();
     }
 

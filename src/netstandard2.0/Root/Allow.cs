@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Threading.Tasks;
 using TddXt.XNSubstitute.Root.ImplementationDetails;
 
 namespace TddXt.XNSubstitute.Root
@@ -23,9 +24,10 @@ namespace TddXt.XNSubstitute.Root
 
   public class FilterAllowingQueries : IQueryFilter
   {
-    public bool Allows(MethodInfo methodInfo)
+    public bool ShouldVerify(MethodInfo methodInfo)
     {
-      return methodInfo.ReturnType == typeof(void);
+      return methodInfo.ReturnType == typeof(void) 
+             || methodInfo.ReturnType == typeof(Task);
     }
   }
 }

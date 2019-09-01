@@ -5,7 +5,7 @@
     <RootNamespace>TddXt.XNSubstitute.Root</RootNamespace>
     <AssemblyName>TddXt.XNSubstitute.Root</AssemblyName>
     <PackageId>XNSubstitute</PackageId>
-    <Version>0.3.2</Version>
+    <Version>0.3.3</Version>
     <Authors>Grzegorz Gałęzowski</Authors>
     <Company />
     <Product>XNSubstitute</Product>
@@ -13,8 +13,8 @@
     <PackageProjectUrl>https://github.com/grzesiek-galezowski/xnsubstitute/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/grzesiek-galezowski/xnsubstitute/</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <AssemblyVersion>0.3.2.0</AssemblyVersion>
-    <FileVersion>0.3.2.0</FileVersion>
+    <AssemblyVersion>0.3.3.0</AssemblyVersion>
+    <FileVersion>0.3.3.0</FileVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
