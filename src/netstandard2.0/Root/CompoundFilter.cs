@@ -1,8 +1,8 @@
 using System.Linq;
 using System.Reflection;
-using TddXt.XNSubstitute.Root.ImplementationDetails;
+using TddXt.XNSubstitute.ImplementationDetails;
 
-namespace TddXt.XNSubstitute.Root
+namespace TddXt.XNSubstitute
 {
   public class CompoundFilter : IQueryFilter
   {

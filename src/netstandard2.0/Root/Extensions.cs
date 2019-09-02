@@ -1,14 +1,13 @@
 ﻿using System;
+using System.Linq;
+using NSubstitute;
 using NSubstitute.Core;
-using static TddXt.XNSubstitute.Root.ReceivedCallsConstraint;
+using NSubstitute.Exceptions;
+using TddXt.XNSubstitute.ImplementationDetails;
+using static TddXt.XNSubstitute.ReceivedCallsConstraint;
 
-namespace TddXt.XNSubstitute.Root
+namespace TddXt.XNSubstitute
 {
-  using System.Linq;
-  using NSubstitute;
-  using NSubstitute.Exceptions;
-  using ImplementationDetails;
-
   public class ReceivedCallsConstraint
   {
     public ReceivedCallsConstraint(Func<ICall, bool> failWhenMatched, string constraintDescription)

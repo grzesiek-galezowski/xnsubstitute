@@ -1,16 +1,13 @@
-﻿namespace TddXt.XNSubstitute.Root
+﻿using System;
+using System.Collections;
+using FluentAssertions;
+using NSubstitute.Core;
+using NSubstitute.Core.Arguments;
+using TddXt.XFluentAssert.Root;
+using TddXt.XNSubstitute.ImplementationDetails;
+
+namespace TddXt.XNSubstitute
 {
-  using System;
-  using System.Collections;
-
-  using FluentAssertions;
-
-  using NSubstitute.Core;
-  using NSubstitute.Core.Arguments;
-
-  using TddXt.XFluentAssert.Root;
-  using TddXt.XNSubstitute.Root.ImplementationDetails;
-
   public static class XArg
   {
     public static T IsLike<T>(T expected)

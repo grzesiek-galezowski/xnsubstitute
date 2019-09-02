@@ -1,16 +1,15 @@
-﻿namespace TddXt.XFluentAssert.EndToEndSpecification
+﻿using System;
+using System.Collections;
+
+using FluentAssertions;
+
+using NSubstitute;
+using NSubstitute.Exceptions;
+using TddXt.XNSubstitute;
+using Xunit;
+
+namespace TddXt.XFluentAssert.EndToEndSpecification
 {
-  using System;
-  using System.Collections;
-
-  using FluentAssertions;
-
-  using NSubstitute;
-  using NSubstitute.Exceptions;
-
-  using TddXt.XNSubstitute.Root;
-
-  using Xunit;
 
   public class ReceivedNothingSpecification
   {

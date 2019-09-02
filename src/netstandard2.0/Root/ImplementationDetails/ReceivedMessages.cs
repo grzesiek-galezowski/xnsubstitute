@@ -1,13 +1,11 @@
 using System;
+using System.Linq;
+using NSubstitute;
+using NSubstitute.Core;
+using NSubstitute.Core.SequenceChecking;
 
-namespace TddXt.XNSubstitute.Root.ImplementationDetails
+namespace TddXt.XNSubstitute.ImplementationDetails
 {
-  using System.Linq;
-
-  using NSubstitute;
-  using NSubstitute.Core;
-  using NSubstitute.Core.SequenceChecking;
-
   public static class ReceivedMessages
   {
     public static string ReceivedNothingMessageFor<T>(T substitute) where T : class

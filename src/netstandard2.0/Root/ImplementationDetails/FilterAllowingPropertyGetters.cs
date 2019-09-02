@@ -1,7 +1,7 @@
 using System.Reflection;
 using NSubstitute.Core;
 
-namespace TddXt.XNSubstitute.Root.ImplementationDetails
+namespace TddXt.XNSubstitute.ImplementationDetails
 {
   public class FilterAllowingPropertyGetters : IQueryFilter
   {

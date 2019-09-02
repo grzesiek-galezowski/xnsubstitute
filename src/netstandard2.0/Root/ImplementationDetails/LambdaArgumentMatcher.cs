@@ -1,10 +1,9 @@
-namespace TddXt.XNSubstitute.Root.ImplementationDetails
+using System;
+using NSubstitute.Core;
+using NSubstitute.Core.Arguments;
+
+namespace TddXt.XNSubstitute.ImplementationDetails
 {
-  using System;
-
-  using NSubstitute.Core;
-  using NSubstitute.Core.Arguments;
-
   public class LambdaArgumentMatcher<T> : IArgumentMatcher, IDescribeNonMatches
   {
     private readonly Action<T>[] _assertionActions;

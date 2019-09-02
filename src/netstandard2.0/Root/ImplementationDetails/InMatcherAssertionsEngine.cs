@@ -1,9 +1,9 @@
-namespace TddXt.XNSubstitute.Root.ImplementationDetails
-{
-  using System;
-  using System.Collections.Generic;
-  using System.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
+namespace TddXt.XNSubstitute.ImplementationDetails
+{
   internal static class InMatcherAssertionsEngine
   {
     private static void ExecuteMultiple<T>(IReadOnlyList<Action<T>> assertionActions, T actual)

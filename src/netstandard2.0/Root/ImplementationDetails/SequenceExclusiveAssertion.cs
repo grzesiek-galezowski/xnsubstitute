@@ -1,11 +1,11 @@
-namespace TddXt.XNSubstitute.Root.ImplementationDetails
-{
-  using System.Collections.Generic;
-  using System.Linq;
-  using NSubstitute;
-  using NSubstitute.Core;
-  using NSubstitute.Exceptions;
+using System.Collections.Generic;
+using System.Linq;
+using NSubstitute;
+using NSubstitute.Core;
+using NSubstitute.Exceptions;
 
+namespace TddXt.XNSubstitute.ImplementationDetails
+{
   public class SequenceExclusiveAssertion
   {
     private readonly IQueryFilter _queryFilter;

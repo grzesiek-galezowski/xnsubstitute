@@ -1,10 +1,10 @@
 using System.Reflection;
 using System.Threading.Tasks;
-using TddXt.XNSubstitute.Root.ImplementationDetails;
+using TddXt.XNSubstitute.ImplementationDetails;
 
-namespace TddXt.XNSubstitute.Root
+namespace TddXt.XNSubstitute
 {
-  public static class Allow
+  public static class Ignoring
   {
     public static IQueryFilter PropertyGetters()
     {

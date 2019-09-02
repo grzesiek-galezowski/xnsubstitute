@@ -1,9 +1,9 @@
-namespace TddXt.XNSubstitute.Root.ImplementationDetails
-{
-  using System;
-  using System.Collections.Generic;
-  using System.Runtime.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
+namespace TddXt.XNSubstitute.ImplementationDetails
+{
   [Serializable]
   public class MultipleConditionsFailedException : Exception
   {

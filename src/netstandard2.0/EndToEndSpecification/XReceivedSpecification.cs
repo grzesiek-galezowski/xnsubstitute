@@ -1,16 +1,14 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
+using TddXt.XNSubstitute;
+using System;
+
+using NSubstitute;
+using NSubstitute.Exceptions;
+using Xunit;
 
 namespace TddXt.XFluentAssert.EndToEndSpecification
 {
-  using System;
-
-  using NSubstitute;
-  using NSubstitute.Exceptions;
-
-  using TddXt.XNSubstitute.Root;
-
-  using Xunit;
 
   public class XReceivedSpecification
   {
@@ -283,7 +281,7 @@ namespace TddXt.XFluentAssert.EndToEndSpecification
             substitute2.DoSomething();
             await substitute1.DoSomethingAsyncWithoutResult();
             await substitute2.DoSomethingAsyncWithoutResult();
-          }, Allow.Queries());
+          }, Ignoring.Queries());
         }).Should().NotThrow();
       }
       
@@ -306,7 +304,7 @@ namespace TddXt.XFluentAssert.EndToEndSpecification
             substitute1.DoSomething();
             substitute2.DoSomething();
             await substitute1.DoSomethingAsyncWithoutResult();
-          }, Allow.Queries());
+          }, Ignoring.Queries());
         }).Should().Throw<Exception>(because: "verification of substitute2.DoSomethingAsyncWithoutResult() is missing");
       }
 

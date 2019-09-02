@@ -1,15 +1,14 @@
-﻿namespace TddXt.XFluentAssert.EndToEndSpecification
+﻿using TddXt.XNSubstitute;
+using System.Collections.Generic;
+
+using FluentAssertions;
+
+using NSubstitute;
+using NSubstitute.Exceptions;
+using Xunit;
+
+namespace TddXt.XFluentAssert.EndToEndSpecification
 {
-  using System.Collections.Generic;
-
-  using FluentAssertions;
-
-  using NSubstitute;
-  using NSubstitute.Exceptions;
-
-  using TddXt.XNSubstitute.Root;
-
-  using Xunit;
 
   public class XArgSpecification
   {

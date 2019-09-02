@@ -1,11 +1,9 @@
-﻿namespace TddXt.XNSubstitute.Root
+﻿using System;
+using NSubstitute.Core;
+using TddXt.XNSubstitute.ImplementationDetails;
+
+namespace TddXt.XNSubstitute
 {
-  using System;
-
-  using NSubstitute.Core;
-
-  using ImplementationDetails;
-
   public class XReceived
   {
     public static void Only(Action action)
@@ -24,7 +22,7 @@
       SubstitutionContext.Current.ThreadContext.RunInQueryContext(action, query);
 
       new SequenceExclusiveAssertion(
-        Allow.AllOf(Allow.PropertyGetters(), methodFilter)
+        Ignoring.AllOf(Ignoring.PropertyGetters(), methodFilter)
         ).Assert(query.Result());
     }
   }

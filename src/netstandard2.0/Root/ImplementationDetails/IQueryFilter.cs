@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace TddXt.XNSubstitute.Root.ImplementationDetails
+namespace TddXt.XNSubstitute.ImplementationDetails
 {
   public interface IQueryFilter
   {
