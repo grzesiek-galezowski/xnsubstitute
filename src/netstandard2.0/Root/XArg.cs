@@ -3,7 +3,7 @@ using System.Collections;
 using FluentAssertions;
 using NSubstitute.Core;
 using NSubstitute.Core.Arguments;
-using TddXt.XFluentAssert.Root;
+using TddXt.XFluentAssert.Api;
 using TddXt.XNSubstitute.ImplementationDetails;
 
 namespace TddXt.XNSubstitute
