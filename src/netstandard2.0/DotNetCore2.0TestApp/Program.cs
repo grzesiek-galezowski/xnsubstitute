@@ -1,15 +1,13 @@
-﻿namespace DotNetCore2._0TestApp
+﻿using TddXt.XFluentAssert.Api;
+using TddXt.XNSubstitute;
+
+namespace DotNetCore2._0TestApp
 {
   using System;
   using System.Collections;
   using System.Collections.Generic;
-
   using FluentAssertions;
-
   using NSubstitute;
-
-  using TddXt.XFluentAssert.Root;
-  using TddXt.XNSubstitute.Root;
 
   public class Program
   {
@@ -23,7 +21,7 @@
       enumerable.Received().Add(Arg<int>.That(
         n => n.Should().Be(333),
         n => n.Should().Be(3453),
-        n => new List<int> { n }.Should().BeLike(new List<int>() { 3453 })));
+        n => new List<int> { n }.Should().BeLike(new List<int> { 3453 })));
 
       /*new object().Should().BeLike()
       new List<int> { 1, 2, 3 }.Should().BeLike(new List<int> { 1, 2, 3 });*/

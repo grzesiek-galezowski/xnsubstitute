@@ -1,4 +1,5 @@
-﻿using TddXt.XNSubstitute;
+﻿using System;
+using TddXt.XNSubstitute;
 using System.Collections.Generic;
 
 using FluentAssertions;
@@ -54,7 +55,7 @@ namespace TddXt.XFluentAssert.EndToEndSpecification
       s.Do(new List<int>());
       Assert.Throws<ReceivedCallsException>(() =>
           {
-            s.Received(1).Do(XArg.EquivalentTo(new List<int>() { 1, 2, 3 }));
+            s.Received(1).Do(XArg.EquivalentTo(new List<int> { 1, 2, 3 }));
           });
     }
 
@@ -62,20 +63,25 @@ namespace TddXt.XFluentAssert.EndToEndSpecification
     public void ShouldCorrectlyReportCollectionSequenceEquality()
     {
       var s = Substitute.For<IXyz>();
-      s.Do(new List<int>() { 1, 2, 3 });
-      s.Do(new List<string>() { "a", "b", "c" });
-      s.Received(1).Do(XArg.SequenceEqualTo(new List<int>() { 1, 2, 3 }));
-      s.Received(1).Do(XArg.SequenceEqualTo(new List<string>() { "a", "b", "c" }));
+      s.Do(new List<int> { 1, 2, 3 });
+      s.Do(new List<string> { "a", "b", "c" });
+      s.Received(1).Do(XArg.SequenceEqualTo(new List<int> { 1, 2, 3 }));
+      s.Received(1).Do(XArg.SequenceEqualTo(new List<string> { "a", "b", "c" }));
+      s.Invoking(m => m.Received(1).Do(XArg.SequenceEqualTo(new List<string> { "b", "c", "a" })))
+        .Should().Throw<Exception>();
+      s.Invoking(m => m.Received(1).Do(XArg.SequenceEqualTo(new List<int> { 3, 2, 1 })))
+        .Should().Throw<Exception>();
     }
 
     [Fact]
     public void ShouldCorrectlyReportCollectionSequenceUnequality()
     {
       var s = Substitute.For<IXyz>();
-      s.Do(new List<int>() {1,2,3});
-      s.Do(new List<string>() {"a", "b", "c"});
-      s.Received(1).Do(XArg.NotSequenceEqualTo(new List<int>() { 1, 2, 3, 4 }));
-      s.Received(1).Do(XArg.NotSequenceEqualTo(new List<string>() { "a", "b", "c", "d" }));
+      s.Do(new List<int> {1,2,3});
+      s.Do(new List<string> {"a", "b", "c"});
+      s.Received(1).Do(XArg.NotSequenceEqualTo(new List<int> { 1, 2, 3, 4 }));
+      s.Received(1).Do(XArg.NotSequenceEqualTo(new List<int> { 3, 2, 1 }));
+      s.Received(1).Do(XArg.NotSequenceEqualTo(new List<string> { "a", "b", "c", "d" }));
     }
 
     [Fact]
@@ -85,8 +91,8 @@ namespace TddXt.XFluentAssert.EndToEndSpecification
       var xyz = Substitute.For<IXyz>();
 
       //WHEN
-      xyz.Do(new List<int>() { 1,2,3 });
-      xyz.Do(new List<int>() { 6,5,4 });
+      xyz.Do(new List<int> { 1,2,3 });
+      xyz.Do(new List<int> { 6,5,4 });
 
       //THEN
       xyz.Received(1).Do(Arg<List<int>>.That(
@@ -109,7 +115,7 @@ namespace TddXt.XFluentAssert.EndToEndSpecification
       var xyz = Substitute.For<IXyz>();
 
       //WHEN
-      xyz.Do(new List<int>() { 1, 2, 3 });
+      xyz.Do(new List<int> { 1, 2, 3 });
 
       //THEN
       var exception = Assert.Throws<ReceivedCallsException>(() =>
@@ -127,7 +133,7 @@ namespace TddXt.XFluentAssert.EndToEndSpecification
       exception.Message.Should().Contain("=== FAILED ASSERTION 2 DETAILS ===");
       exception.Message.Should().Contain("=== FAILED ASSERTION 3 DETAILS ===");
       exception.Message.Should().Contain("=== FAILED ASSERTION 5 DETAILS ===");
-      exception.Message.Should().Contain("Expected l to contain items in descending order, but found {1, 2, 3} where item at index 0 is in wrong order");
+      exception.Message.Should().Contain("Expected l to be in descending order, but found {1, 2, 3} where item at index 0 is in wrong order");
       exception.Message.Should().Contain("Expected l {1, 2, 3} to contain 4");
       exception.Message.Should().Contain("Expected l {1, 2, 3} to contain 5");
       exception.Message.Should().Contain("Expected l {1, 2, 3} to contain 6");

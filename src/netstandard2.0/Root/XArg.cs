@@ -32,14 +32,17 @@ namespace TddXt.XNSubstitute
           lambdaMatcher));
     }
 
-    public static T SequenceEqualTo<T>(T expected) where T : IEnumerable
+    public static TCollection SequenceEqualTo<TCollection>(TCollection expected) where TCollection : IEnumerable
     {
-      return Where<T>(actual => actual.Should().Equal(expected));
+      return Where<TCollection>(actual => actual.Should().BeEquivalentTo(
+        expected, 
+        options => options.WithStrictOrdering()));
     }
 
-    public static T NotSequenceEqualTo<T>(T expected) where T : IEnumerable
+    public static TCollection NotSequenceEqualTo<TCollection>(TCollection expected) where TCollection : IEnumerable
     {
-      return Where<T>(actual => actual.Should().NotEqual(expected));
+      return Where<TCollection>(actual => actual.Should()
+        .NotBeEquivalentTo(expected, options => options.WithStrictOrdering()));
     }
 
     internal static T Where<T>(params Action<T>[] assertions)
@@ -49,7 +52,7 @@ namespace TddXt.XNSubstitute
 
       var lambdaMatcher = new LambdaArgumentMatcher<T>(assertions);
       EnqueueMatcher<T>(lambdaMatcher);
-      return default(T);
+      return default;
     }
 
   }
