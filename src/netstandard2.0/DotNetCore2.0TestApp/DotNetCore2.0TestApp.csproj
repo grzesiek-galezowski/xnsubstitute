@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>net5</TargetFramework>
     <RootNamespace>DotNetCore2._0TestApp</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="XNSubstitute" Version="1.1.0" />
+    <PackageReference Include="XNSubstitute" Version="2.0.0" />
   </ItemGroup>
 
 </Project>

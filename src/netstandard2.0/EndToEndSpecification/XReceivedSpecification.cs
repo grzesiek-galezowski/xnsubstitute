@@ -2,7 +2,6 @@
 using FluentAssertions;
 using TddXt.XNSubstitute;
 using System;
-
 using NSubstitute;
 using NSubstitute.Exceptions;
 using Xunit;
