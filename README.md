@@ -47,6 +47,25 @@ XReceived.Only(() =>
   bar.End();
 });
 ```
+# XReceived.Exactly()
+
+```csharp
+var foo = Substitute.For<IFoo>();
+var bar = Substitute.For<IBar>();
+
+foo.Start(2);
+bar.Begin();
+foo.Finish();
+bar.End();
+
+XReceived.Only(() =>
+{
+  foo.Start(2);
+  bar.Begin();
+  foo.Finish();
+  bar.End();
+});
+```
 
 
 
