@@ -2,45 +2,44 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TddXt.XNSubstitute.ImplementationDetails
+namespace TddXt.XNSubstitute.ImplementationDetails;
+
+internal static class InMatcherAssertionsEngine
 {
-  internal static class InMatcherAssertionsEngine
+  private static void ExecuteMultiple<T>(IReadOnlyList<Action<T>> assertionActions, T actual)
   {
-    private static void ExecuteMultiple<T>(IReadOnlyList<Action<T>> assertionActions, T actual)
+    var exceptions = new Dictionary<int, Exception>();
+    for (var i = 0; i < assertionActions.Count; ++i)
     {
-      var exceptions = new Dictionary<int, Exception>();
-      for (var i = 0; i < assertionActions.Count; ++i)
+      try
       {
-        try
-        {
-          assertionActions[i].Invoke(actual);
-        }
-        catch (Exception e)
-        {
-          exceptions.Add(i + 1, e);
-        }
+        assertionActions[i].Invoke(actual);
       }
-      if (exceptions.Any())
+      catch (Exception e)
       {
-        throw new MultipleConditionsFailedException(exceptions);
+        exceptions.Add(i + 1, e);
       }
     }
+    if (exceptions.Any())
+    {
+      throw new MultipleConditionsFailedException(exceptions);
+    }
+  }
 
-    public static void Execute<T>(IReadOnlyList<Action<T>> assertions, T actual)
+  public static void Execute<T>(IReadOnlyList<Action<T>> assertions, T actual)
+  {
+    if (assertions.Count == 1)
     {
-      if (assertions.Count == 1)
-      {
-        ExecuteSingle(assertions, actual);
-      }
-      else
-      {
-        ExecuteMultiple(assertions, actual);
-      }
+      ExecuteSingle(assertions, actual);
     }
+    else
+    {
+      ExecuteMultiple(assertions, actual);
+    }
+  }
 
-    private static void ExecuteSingle<T>(IEnumerable<Action<T>> assertions, T actual)
-    {
-      assertions.First()(actual);
-    }
+  private static void ExecuteSingle<T>(IEnumerable<Action<T>> assertions, T actual)
+  {
+    assertions.First()(actual);
   }
 }

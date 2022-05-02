@@ -1,13 +1,14 @@
 using System.Reflection;
 using NSubstitute.Core;
 
-namespace TddXt.XNSubstitute.ImplementationDetails
+namespace TddXt.XNSubstitute.ImplementationDetails;
+
+public class FilterAllowingPropertyGetters : IQueryFilter
 {
-  public class FilterAllowingPropertyGetters : IQueryFilter
+  public bool ShouldVerify(MethodInfo methodInfo)
   {
-    public bool ShouldVerify(MethodInfo methodInfo)
-    {
-      return methodInfo.GetPropertyFromGetterCallOrNull() == null;
-    }
+    return methodInfo.GetPropertyFromGetterCallOrNull() == null;
   }
+
+  public string WhatIsFiltered => "property getters";
 }

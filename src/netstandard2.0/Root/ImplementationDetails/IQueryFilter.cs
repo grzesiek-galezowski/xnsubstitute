@@ -1,9 +1,9 @@
 using System.Reflection;
 
-namespace TddXt.XNSubstitute.ImplementationDetails
+namespace TddXt.XNSubstitute.ImplementationDetails;
+
+public interface IQueryFilter
 {
-  public interface IQueryFilter
-  {
-    bool ShouldVerify(MethodInfo methodInfo);
-  }
+  bool ShouldVerify(MethodInfo methodInfo);
+  string WhatIsFiltered { get; }
 }

@@ -2,41 +2,40 @@ using System;
 using NSubstitute.Core;
 using NSubstitute.Core.Arguments;
 
-namespace TddXt.XNSubstitute.ImplementationDetails
+namespace TddXt.XNSubstitute.ImplementationDetails;
+
+public class LambdaArgumentMatcher<T> : IArgumentMatcher, IDescribeNonMatches
 {
-  public class LambdaArgumentMatcher<T> : IArgumentMatcher, IDescribeNonMatches
+  private readonly Action<T>[] _assertionActions;
+
+  public LambdaArgumentMatcher(Action<T>[] assertionActions)
   {
-    private readonly Action<T>[] _assertionActions;
+    _assertionActions = assertionActions;
+  }
 
-    public LambdaArgumentMatcher(Action<T>[] assertionActions)
+  public bool IsSatisfiedBy(object actual)
+  {
+    try
     {
-      _assertionActions = assertionActions;
+      InMatcherAssertionsEngine.Execute(_assertionActions, (T) actual);
+      return true;
     }
-
-    public bool IsSatisfiedBy(object actual)
+    catch (Exception)
     {
-      try
-      {
-        InMatcherAssertionsEngine.Execute(_assertionActions, (T) actual);
-        return true;
-      }
-      catch (Exception)
-      {
-        return false;
-      }
+      return false;
     }
+  }
 
-    public string DescribeFor(object actual)
+  public string DescribeFor(object actual)
+  {
+    try
     {
-      try
-      {
-        InMatcherAssertionsEngine.Execute(_assertionActions, (T) actual);
-        return string.Empty;
-      }
-      catch (Exception e)
-      {
-        return e.Message;
-      }
+      InMatcherAssertionsEngine.Execute(_assertionActions, (T) actual);
+      return string.Empty;
+    }
+    catch (Exception e)
+    {
+      return e.Message;
     }
   }
 }
