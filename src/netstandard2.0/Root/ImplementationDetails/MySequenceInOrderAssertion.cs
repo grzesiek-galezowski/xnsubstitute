@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using NSubstitute.Core;
-using NSubstitute.Core.SequenceChecking;
 using NSubstitute.Exceptions;
 
 namespace TddXt.XNSubstitute.ImplementationDetails;

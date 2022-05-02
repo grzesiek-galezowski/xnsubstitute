@@ -23,4 +23,12 @@ public static class ReceivedMessages
                   + $"Actually received the following calls:\n\n    {formatter.FormatActualCalls()}\n\n";
     return message;
   }
+
+  public static string ReceivedDifferentCountThanExpectedCallsMessageFor<T>(T substitute, string descriptionOfConstraint) where T : class
+  {
+    var formatter = new SequenceFormatter("\n    ", new CallSpecAndTarget[] {}, substitute.ReceivedCalls().ToArray());
+    var message = $"\nExpected to receive *{descriptionOfConstraint}*.\n"
+                  + $"Actually received the following calls:\n\n    {formatter.FormatActualCalls()}\n\n";
+    return message;
+  }
 }

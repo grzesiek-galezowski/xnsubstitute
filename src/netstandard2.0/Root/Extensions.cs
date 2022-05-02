@@ -3,6 +3,7 @@ using System.Linq;
 using NSubstitute;
 using NSubstitute.Core;
 using NSubstitute.Exceptions;
+using NSubstitute.ReceivedExtensions;
 using TddXt.XNSubstitute.ImplementationDetails;
 using static TddXt.XNSubstitute.ReceivedCallsConstraint;
 
@@ -61,5 +62,28 @@ public static class Extensions
     }
 
     return substitute;
+  }
+
+  public static T ReceivedOnly<T>(this T substitute) where T : class
+  {
+    return substitute.ReceivedOnly(Quantity.AtLeastOne());
+  }
+
+  public static T ReceivedOnly<T>(this T substitute, int requiredNumberOfCalls) where T : class
+  {
+    return ReceivedOnly(substitute, Quantity.Exactly(requiredNumberOfCalls));
+  }
+
+  public static T ReceivedOnly<T>(this T substitute, Quantity requiredQuantity) where T : class
+  {
+    if(!requiredQuantity.Matches(substitute.ReceivedCalls()))
+    {
+      throw new ReceivedCallsException( 
+        ReceivedMessages.ReceivedDifferentCountThanExpectedCallsMessageFor(
+          substitute, 
+          requiredQuantity.Describe("call total on this substitute","calls total on this substitute")));
+    }
+
+    return substitute.Received(requiredQuantity);
   }
 }

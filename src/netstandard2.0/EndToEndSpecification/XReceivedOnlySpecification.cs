@@ -1,30 +1,30 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
+using TddXt.XNSubstitute;
+using System;
 using NSubstitute;
 using NSubstitute.Exceptions;
-using TddXt.XNSubstitute;
+using NSubstitute.ReceivedExtensions;
 using Xunit;
 
 namespace TddXt.XFluentAssert.EndToEndSpecification;
 
-public class XReceivedOnlyInOrderSpecification
+public class XReceivedOnlySpecification
 {
   private readonly IFoo _foo;
   private readonly IBar _bar;
 
-  public XReceivedOnlyInOrderSpecification()
+  public XReceivedOnlySpecification()
   {
     _foo = Substitute.For<IFoo>();
     _bar = Substitute.For<IBar>();
-
   }
 
   [Fact]
   public void PassWhenCheckingASingleCall()
   {
     _foo.Start();
-    XReceived.Exactly(() => _foo.Start());
+    XReceived.Only(() => _foo.Start());
   }
 
   [Fact]
@@ -33,7 +33,7 @@ public class XReceivedOnlyInOrderSpecification
     _foo.Start();
 
     Assert.Throws<CallSequenceNotFoundException>(() =>
-      XReceived.Exactly(() => _foo.Finish())
+      XReceived.Only(() => _foo.Finish())
     );
   }
 
@@ -45,32 +45,13 @@ public class XReceivedOnlyInOrderSpecification
     _foo.Finish();
     _bar.Begin();
 
-    this.Invoking(_ =>
+    XReceived.Only(() =>
     {
-      XReceived.Exactly(() =>
-      {
-        _foo.Start(2);
-        _bar.Begin();
-        _foo.Finish();
-        _bar.End();
-      });
-    }).Should().ThrowExactly<CallSequenceNotFoundException>()
-      .WithMessage(@"
-Expected to receive these calls in order:
-
-    XReceivedOnlyInOrderSpecification+IFoo.Start(2)
-    XReceivedOnlyInOrderSpecification+IBar.Begin()
-    XReceivedOnlyInOrderSpecification+IFoo.Finish()
-    XReceivedOnlyInOrderSpecification+IBar.End()
-
-Actually received matching calls in this order:
-
-    XReceivedOnlyInOrderSpecification+IBar.End()
-    XReceivedOnlyInOrderSpecification+IFoo.Start(2)
-    XReceivedOnlyInOrderSpecification+IFoo.Finish()
-    XReceivedOnlyInOrderSpecification+IBar.Begin()
-
-*** Note: calls to property getters are not considered part of the query. ***"); //bug should depend on filter
+      _foo.Start(2);
+      _bar.Begin();
+      _foo.Finish();
+      _bar.End();
+    });
   }
 
   [Fact]
@@ -82,7 +63,7 @@ Actually received matching calls in this order:
     _bar.End();
 
     Assert.Throws<CallSequenceNotFoundException>(() =>
-      XReceived.Exactly(() =>
+      XReceived.Only(() =>
       {
         _foo.Start(2);
         _bar.Begin();
@@ -100,7 +81,7 @@ Actually received matching calls in this order:
     _foo.Finish();
     _bar.End();
 
-    XReceived.Exactly(() =>
+    XReceived.Only(() =>
     {
       _foo.Start(Arg.Is<int>(x => x < 10));
       _bar.Begin();
@@ -117,7 +98,7 @@ Actually received matching calls in this order:
     _foo.Finish();
 
     Assert.Throws<CallSequenceNotFoundException>(() =>
-      XReceived.Exactly(() =>
+      XReceived.Only(() =>
       {
         _foo.Start();
         _foo.FunkyStuff("hi");
@@ -136,7 +117,7 @@ Actually received matching calls in this order:
     _bar.End();
 
     Assert.Throws<CallSequenceNotFoundException>(() =>
-      XReceived.Exactly(() =>
+      XReceived.Only(() =>
       {
         _foo.Start();
         _bar.Begin();
@@ -156,7 +137,7 @@ Actually received matching calls in this order:
     _foo.Start();
 
     Assert.Throws<CallSequenceNotFoundException>(() =>
-      XReceived.Exactly(() =>
+      XReceived.Only(() =>
       {
         _foo.Start();
         _bar.Begin();
@@ -173,7 +154,7 @@ Actually received matching calls in this order:
     _foo.FunkyStuff("get funky!");
     _bar.End();
 
-    XReceived.Exactly(() =>
+    XReceived.Only(() =>
     {
       _bar.Begin();
       _bar.End();
@@ -189,7 +170,7 @@ Actually received matching calls in this order:
     _foo.Finish();
 
 
-    XReceived.Exactly(() =>
+    XReceived.Only(() =>
     {
       _foo.Start();
       _bar.Baz.Flurgle = "hi";
@@ -206,7 +187,7 @@ Actually received matching calls in this order:
 
 
     Assert.Throws<CallSequenceNotFoundException>(() =>
-      XReceived.Exactly(() =>
+      XReceived.Only(() =>
       {
         _foo.Start();
         _bar.Baz.Flurgle = "howdy";
@@ -222,7 +203,7 @@ Actually received matching calls in this order:
     baz.Wurgle();
     baz.Slurgle();
 
-    XReceived.Exactly(() =>
+    XReceived.Only(() =>
     {
       // This call spec should be regarded as matching the
       // calling code above. So needs to ignore the get 
@@ -239,7 +220,7 @@ Actually received matching calls in this order:
     func();
     func();
 
-    XReceived.Exactly(() =>
+    XReceived.Only(() =>
     {
       func();
       func();
@@ -253,7 +234,7 @@ Actually received matching calls in this order:
     func();
 
     Assert.Throws<CallSequenceNotFoundException>(() =>
-      XReceived.Exactly(() =>
+      XReceived.Only(() =>
       {
         func();
         func();
@@ -266,10 +247,7 @@ Actually received matching calls in this order:
   {
     _foo.OnFoo += () => { };
 
-    XReceived.Exactly(() =>
-    {
-      _foo.OnFoo += Arg.Any<Action>();
-    });
+    XReceived.Only(() => { _foo.OnFoo += Arg.Any<Action>(); });
   }
 
   [Fact]
@@ -290,16 +268,16 @@ Actually received matching calls in this order:
 
     new Action(() =>
     {
-      XReceived.Exactly(async () =>
+      XReceived.Only(async () =>
       {
         substitute1.DoSomething();
-        await substitute1.DoSomethingAsyncWithoutResult();
         substitute2.DoSomething();
+        await substitute1.DoSomethingAsyncWithoutResult();
         await substitute2.DoSomethingAsyncWithoutResult();
       }, Allowing.Queries());
     }).Should().NotThrow();
   }
-      
+
   [Fact]
   public async Task ShouldNotCheckQueriesWhenTheyAreAllowed2()
   {
@@ -314,39 +292,13 @@ Actually received matching calls in this order:
 
     new Action(() =>
     {
-      XReceived.Exactly(() =>
+      XReceived.Only(() =>
       {
         substitute1.DoSomething();
         substitute2.DoSomething();
         substitute1.DoSomethingAsyncWithoutResult();
       }, Allowing.Queries());
-    }).Should().ThrowExactly<CallSequenceNotFoundException>(
-      because: "verification of substitute2.DoSomethingAsyncWithoutResult() is missing")
-      .WithMessage(@"
-Expected to receive only these calls:
-
-    1@XReceivedOnlyInOrderSpecification+IHaveCommandAndQueryAndTasks.DoSomething()
-    2@XReceivedOnlyInOrderSpecification+IHaveCommandAndQueryAndTasks.DoSomething()
-    1@XReceivedOnlyInOrderSpecification+IHaveCommandAndQueryAndTasks.DoSomethingAsyncWithoutResult()
-
-Actually received the following calls:
-
-    1@XReceivedOnlyInOrderSpecification+IHaveCommandAndQueryAndTasks.DoSomethingAsyncWithoutResult()
-    1@XReceivedOnlyInOrderSpecification+IHaveCommandAndQueryAndTasks.DoSomething()
-    2@XReceivedOnlyInOrderSpecification+IHaveCommandAndQueryAndTasks.DoSomethingAsyncWithoutResult()
-    2@XReceivedOnlyInOrderSpecification+IHaveCommandAndQueryAndTasks.DoSomething()
-
-Calls expected but not received:
-
-    
-
-Calls received but not expected:
-
-    DoSomethingAsyncWithoutResult()
-
-*** Note: calls to property getters and property getters and queries (methods returning something different than void and Task) are not considered part of the query. ***
-
-");
+    }).Should().Throw<Exception>(because: "verification of substitute2.DoSomethingAsyncWithoutResult() is missing");
   }
 
   public interface IFoo
@@ -379,5 +331,40 @@ Calls received but not expected:
     Task<int> DoSomethingAsyncWithResult();
     string QuerySomething();
     Task<string> QuerySomethingAsync();
+  }
+}
+
+public class XReceivedOnly2Specification
+{
+  [Fact]
+  public void ShouldXXX() //bug
+  {
+    //GIVEN
+    var something1 = Substitute.For<ISomething>();
+    var something2 = Substitute.For<ISomething>();
+
+    //WHEN
+    something1.Do1();
+    something1.Do1();
+    something2.Do1();
+
+    //THEN
+    something1.Invoking(s => s.ReceivedOnly(Quantity.Exactly(1)).Do1())
+      .Should().ThrowExactly<ReceivedCallsException>()
+      .WithMessage(@"
+Expected to receive *exactly 1 call total on this substitute*.
+Actually received the following calls:
+
+    Do1()
+    Do1()
+
+");
+    something2.Invoking(s => s.ReceivedOnly(Quantity.Exactly(1)).Do1()).Should().NotThrow();
+  }
+
+  public interface ISomething
+  {
+    public void Do1();
+    public void Do2();
   }
 }
