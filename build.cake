@@ -12,7 +12,7 @@ var toolpath = Argument("toolpath", @"");
 var solutionName = "XNSubstitute.sln";
 var mainDll = "TddXt.XNSubstitute.Root.dll";
 
-var defaultNugetPackSettings = new DotNetCorePackSettings 
+var defaultNugetPackSettings = new DotNetPackSettings 
 {
 	IncludeSymbols = true,
 	Configuration = "Release",
@@ -39,11 +39,11 @@ var srcNetStandardDir = srcDir + Directory("netstandard2.0");
 Task("Clean")
     .Does(() =>
 {
-	DotNetCoreClean("./src/netstandard2.0/Root", new DotNetCoreCleanSettings
+	DotNetClean("./src/netstandard2.0/Root", new DotNetCleanSettings
      {
          Configuration = "Debug",
      });
-	DotNetCoreClean("./src/netstandard2.0/Root", new DotNetCoreCleanSettings
+	DotNetClean("./src/netstandard2.0/Root", new DotNetCleanSettings
      {
          Configuration = "Release",
      });
@@ -54,7 +54,7 @@ Task("Build")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    DotNetCoreBuild("./src/netstandard2.0/Root", new DotNetCoreBuildSettings
+    DotNetBuild("./src/netstandard2.0/Root", new DotNetBuildSettings
      {
          Configuration = configuration,
          OutputDirectory = buildNetStandardDir,
@@ -68,7 +68,7 @@ Task("Run-Unit-Tests")
     var projectFiles = GetFiles(srcNetStandardDir.ToString() + "/**/*Specification.csproj");
     foreach(var file in projectFiles)
     {
-        DotNetCoreTest(file.FullPath, new DotNetCoreTestSettings           
+        DotNetTest(file.FullPath, new DotNetTestSettings           
         {
            Configuration = configuration
         });
@@ -79,7 +79,7 @@ Task("Pack")
     .IsDependentOn("Build")
     .Does(() => 
     {
-		DotNetCorePack(srcNetStandardDir + File("Root"), defaultNugetPackSettings);
+		DotNetPack(srcNetStandardDir + File("Root"), defaultNugetPackSettings);
     });
 
 
